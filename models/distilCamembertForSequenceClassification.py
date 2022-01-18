@@ -138,7 +138,7 @@ class DistilledCamembertForSequenceClassification(Module):
         """
         The custom distillation loss.
         """
-        student_classification_outputs = student_classification_outputs / self.temperature
+        student_classification_outputs = (student_classification_outputs / self.temperature).softmax(1)
         teacher_classification_outputs = (teacher_classification_outputs / self.temperature).softmax(1)
         # Classification loss
         loss = torch.nn.CrossEntropyLoss()(
